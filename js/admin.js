@@ -1,9 +1,31 @@
 if(!MS.get(MS.key.auth,null))location.href='login.html';
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+
 function money(n){return MS.money(n)}
-function goSection(id){$$('.admin-section').forEach(s=>s.classList.toggle('active',s.id===id));$$('.side-nav button').forEach(b=>b.classList.toggle('active',b.dataset.section===id));if($('#mobileNav'))$('#mobileNav').value=id;renderAll()}
-$$('.side-nav button').forEach(b=>b.addEventListener('click',()=>goSection(b.dataset.section)));$('#mobileNav')?.addEventListener('change',e=>goSection(e.target.value));$('#logout')?.addEventListener('click',()=>{localStorage.removeItem(MS.key.auth);location.href='login.html'});
-function totals(){const orders=MS.get(MS.key.orders,[]),offline=MS.get(MS.key.offline,[]),expenses=MS.get(MS.key.expenses,[]);const onlineRev=orders.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+o.total,0),offlineRev=offline.reduce((s,o)=>s+o.total,0),cogs=orders.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+o.items.reduce((x,i)=>x+i.cost*i.qty,0),0)+offline.reduce((s,o)=>s+o.cost*o.qty,0),exp=expenses.reduce((s,e)=>s+Number(e.amount),0);return{orders,offline,expenses,onlineRev,offlineRev,revenue:onlineRev+offlineRev,cogs,expensesTotal:exp,gross:onlineRev+offlineRev-cogs,net:onlineRev+offlineRev-cogs-exp}}
+function goSection(id){$$('.admin-section').forEach(s=>s.classList.toggle('active',s.id===id));
+    $$('.side-nav button').forEach(b=>b.classList.toggle('active',b.dataset.section===id));
+    if($('#mobileNav'))$('#mobileNav').value=id;
+    renderAll()}
+
+$$('.side-nav button').forEach(b=>b.addEventListener('click',()=>goSection(b.dataset.section)));
+$('#mobileNav')?.addEventListener('change',e=>goSection(e.target.value));
+$('#logout')?.addEventListener('click',()=>{localStorage.removeItem(MS.key.auth);
+    location.href='login.html'});
+function totals(){const orders=MS.get(MS.key.orders,[]),
+    offline=MS.get(MS.key.offline,[]),
+    expenses=MS.get(MS.key.expenses,[]);
+    
+    const onlineRev=orders.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+o.total,0),
+    offlineRev=offline.reduce((s,o)=>s+o.total,0),
+    cogs=orders.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+o.items.reduce((x,i)=>x+i.cost*i.qty,0),0)+offline.reduce((s,o)=>s+o.cost*o.qty,0),
+    exp=expenses.reduce((s,e)=>s+Number(e.amount),0);return{orders,
+        offline,
+        expenses,
+        onlineRev,
+        offlineRev,
+        revenue:onlineRev+offlineRev,
+        cogs,expensesTotal:exp,gross:onlineRev+offlineRev-cogs,
+        net:onlineRev+offlineRev-cogs-exp}}
 function renderOverview(){const t=totals(),ps=MS.get(MS.key.products,[]),low=ps.filter(p=>p.stock<=p.threshold&&p.stock>0).length,out=ps.filter(p=>p.stock===0).length;$('#stats').innerHTML=[['Revenue',money(t.revenue)],['Net Profit',money(t.net)],['Online Orders',t.orders.filter(o=>o.source==='Online').length],['Low Stock',low+out]].map(x=>`<div class="stat-card"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join('');const months=Array.from({length:6},(_,i)=>{const d=new Date();d.setMonth(d.getMonth()-5+i);const key=`${d.getFullYear()}-${d.getMonth()}`;const val=[...t.orders.map(o=>({date:o.date,total:o.total})),...t.offline.map(o=>({date:o.date,total:o.total}))].filter(x=>{const z=new Date(x.date);return `${z.getFullYear()}-${z.getMonth()}`===key}).reduce((s,x)=>s+x.total,0);return{label:d.toLocaleString('en',{month:'short'}),value:val}});const max=Math.max(...months.map(x=>x.value),1);$('#salesChart').innerHTML=months.map(m=>`<div class="bar" style="height:${Math.max(8,m.value/max*190)}px"><span>${m.label}</span></div>`).join('');$('#snapshot').innerHTML=`<div class="summary-row"><span>Online revenue</span><strong>${money(t.onlineRev)}</strong></div><div class="summary-row"><span>Offline revenue</span><strong>${money(t.offlineRev)}</strong></div><div class="summary-row"><span>Cost of goods</span><strong>${money(t.cogs)}</strong></div><div class="summary-row"><span>Expenses</span><strong>${money(t.expensesTotal)}</strong></div><div class="summary-row total"><span>Net profit</span><strong>${money(t.net)}</strong></div><p class="notice">${low+out} product(s) need stock attention.</p>`;$('#recentOrders').innerHTML=orderRows(t.orders.slice(0,7))}
 function orderRows(os){if(!os.length)return '<div class="empty">No orders yet.</div>';return `<table class="table"><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr></thead><tbody>${os.map(o=>`<tr><td>${o.number}</td><td>${o.customer.name}</td><td>${money(o.total)}</td><td><span class="pill ${o.status==='Delivered'?'success':o.status==='Cancelled'?'danger':'warn'}">${o.status}</span></td><td><select class="select" onchange="updateOrder('${o.id}',this.value)">${['Pending','Confirmed','Processing','Shipped','Out for Delivery','Delivered','Cancelled'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table>`}
 function updateOrder(id,status){const os=MS.get(MS.key.orders,[]),o=os.find(x=>x.id===id);if(!o)return;o.status=status;MS.set(MS.key.orders,os);MS.log(`Order ${o.number} changed to ${status}.`);MS.toast('Order updated.');renderAll()}

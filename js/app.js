@@ -63,9 +63,15 @@ const MS={
   if(!localStorage.getItem(MS.key.offline))MS.set(MS.key.offline,[]);
   if(!localStorage.getItem(MS.key.wishlist))MS.set(MS.key.wishlist,[]);
   if(!localStorage.getItem(MS.key.activities))MS.set(MS.key.activities,[]);
-  if(!localStorage.getItem(MS.key.settings))MS.set(MS.key.settings,{businessName:"Mary's Scent",whatsapp:MS.wa,delivery:3000});
+  if(!localStorage.getItem(MS.key.settings))MS.set(MS.key.settings,
+   
+   {businessName:"Mary's Scent",
+      whatsapp:MS.wa,
+      delivery:3000});
  },
- fmtDate(d){return new Date(d).toLocaleString('en-NG',{dateStyle:'medium',timeStyle:'short'})}
+ fmtDate(d){return new Date(d).toLocaleString('en-NG',
+   {dateStyle:'medium',
+      timeStyle:'short'})}
 };
 MS.initData();
 document.addEventListener('DOMContentLoaded',
