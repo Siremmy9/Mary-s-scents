@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mary's Scent — Luxury Fragrances</title>
+  <link rel="stylesheet" href="css/style.css"></head>
+<body>  
+      <div class="loading"><div class="loading-logo"><strong>MARY'S SCENT</strong><span>Luxury Fragrances</span>
+       <div class="spinner"></div></div></div>
+      <div class="topbar">Authentic fragrances • Nationwide delivery • <strong>WhatsApp orders available</strong></div>
+      <nav class="navbar"><div class="container nav-inner">
+        <a class="brand" href="index.html"><div class="brand-mark">M</div>
+    <div class="brand-text"><strong>MARY'S SCENT</strong><span>LUXURY FRAGRANCES</span></div></a>
+    <div class="nav-links"><a href="index.html">Home</a>
+        <a href="shop.html">Shop</a><a href="index.html#categories">Categories</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="track.html">Track Order</a>
+        <a href="admin/login.html">Admin</a>
+
+</div>
+
+        <div class="nav-actions">
+ <a class="icon-btn" href="cart.html" aria-label="Cart">🛒<span class="badge" data-cart-count>0</span></a>
+  <button class="icon-btn menu-btn" data-menu>☰</button>
+</div>
+</div>
+</nav>
+  <main><section class="hero"><div class="container hero-grid"><div><span class="eyebrow">Luxury fragrances • Authentic brands</span>
+      <h1>Your Signature Scent Awaits.</h1>
+      <p>Discover beautiful fragrances that help you smell good, feel confident and always leave an impression.</p>
+      <div class="hero-buttons"><a class="btn btn-gold" href="shop.html">Shop Collection</a>
+          <a class="btn btn-dark" href="#categories">Explore Categories</a></div></div>
+          <div class="hero-art"><img src="assets/images/marys-scent.jpg" alt="Mary's Scent fragrance collection"></div></div></section>
+          <section class="section" id="categories"><div class="container"><div class="section-head">
+            <div><span class="eyebrow">Find your fragrance</span>
+                <h2>Shop by category</h2></div><p>From everyday signatures to gift-ready collections, discover something made for every mood.</p></div>
+                <div class="categories"><a class="category" href="shop.html?category=Perfumes"><small>01</small><h3>Perfumes</h3></a>
+         <a class="category" href="shop.html?category=Body Sprays"><small>02</small>
+  <h3>Body Sprays</h3></a><a class="category" href="shop.html?category=Gift Sets"><small>03</small>
+      <h3>Gift Sets</h3></a><a class="category" href="shop.html?category=For Him"><small>04</small>
+          <h3>For Him</h3></a><a class="category" href="shop.html?category=For Her"><small>05</small>
+   <h3>For Her</h3></a><a class="category" href="shop.html?category=Unisex"><small>06</small>
+       <h3>Unisex</h3></a><a class="category" href="shop.html?category=New Arrivals"><small>07</small>
+<h3>New Arrivals</h3></a><a class="category" href="shop.html?category=Best Sellers"><small>08</small>
+    <h3>Best Sellers</h3></a></div></div></section><section class="section dark"><div class="container">
+        <div class="section-head"><div><span class="eyebrow">Customer favourites</span><h2>Featured scents</h2></div>
+        <a class="btn btn-gold" href="shop.html">View all products</a></div><div id="homeProducts" class="products"></div></div></section>
+        
+        <section class="section promo" id="about">
+            <div class="container promo-grid">
+                <img src="assets/images/perf.jpg" alt="Mary's Scent promotional collection">
+                <div><span class="eyebrow">Mary's Scent</span>
+                    <div class="quote">“Smell Good. Feel Confident. Always.”</div>
+                    <p>Mary’s Scent brings together authentic fragrance brands, thoughtful gift sets and beautiful scents for everyone.
+   Shop online or place your order directly through WhatsApp.</p>
+   <a class="btn btn-gold" href="https://wa.me/2349135095176" target="_blank">Chat on WhatsApp</a>
+  </div>
+                    </div>
+                </section>
+                <section class="section" id="contact">
+                    <div class="container">
+  <div class="section-head"><div><span class="eyebrow">Need help?</span>
+      <h2>Let’s find your scent.</h2></div><p>Have a question about a product, delivery or a gift set? Reach Mary’s Scent directly.
+
+      </p></div>
+      <div class="panel"><p><strong>WhatsApp:</strong> 09135095176</p>
+          <p><strong>Delivery:</strong> Nationwide delivery available.</p>
+          <a class="btn btn-gold" href="https://wa.me/2349135095176" target="_blank">Order via WhatsApp</a>
+      </div></div></section></main>
+      <footer class="footer"><div class="container"><div class="footer-grid">
+          <div><a class="brand" href="index.html"><div class="brand-mark">M</div><div class="brand-text"><strong>MARY'S SCENT</strong>
+              <span>LUXURY FRAGRANCES</span></div></a>
+              <p>Authentic fragrances for every signature.</p></div><div><h3>Shop</h3>
+  <a href="shop.html">All Products</a>
+  <a href="shop.html?category=Gift Sets">Gift Sets</a>
+  <a href="shop.html?category=For Him">For Him</a>
+  <a href="shop.html?category=For Her">For Her</a></div>
+  <div><h3>Customer</h3><a href="cart.html">Cart</a>
+      <a href="checkout.html">Checkout</a><a href="track.html">Track Order</a></div>
+      <div><h3>Contact</h3><a href="https://wa.me/2349135095176">WhatsApp</a>
+          <a href="#contact">Delivery</a></div></div>
+          <div class="footer-bottom">© <span id="year"></span> Mary's Scent 
+      </div></div></footer><div id="toast" class="toast">
+
+  </div><script src="js/app.js"></script>
+  <script>const ps=MS.get(MS.key.products,[]);
+  document.querySelector('#homeProducts').innerHTML=ps.slice(0,4).map(p=>`
+  <article class="product-card"><div class="product-image"><img src="${p.image}" alt="${p.name}">
+  <span class="tag">Featured</span>
+  </div><div class="product-body">
+  <div class="product-brand">${p.brand}</div><h3>${p.name}</h3>
+  <div class="product-meta"><span class="price">${MS.money(p.price)}</span>
+  <span>★ ${p.rating}</span></div><div class="product-actions">
+  <a class="small-btn" href="shop.html">View</a>
+  <button class="small-btn primary" onclick="MS.addCart('${p.id}')">Add to Cart</button>
+  </div></div></article>`).join('')</script></body></html>
